@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Persistence;
+using Services;
+using Services.Interfaces;
 
 namespace MovieAPI
 {
@@ -25,7 +24,10 @@ namespace MovieAPI
         {
 
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();
-            services.AddControllers();
+            services.AddControllers()
+                .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+            services.AddDbContext<MovieDBContext>
+                (options => options.UseSqlServer("Server=.\\sql2019; Database=MovieDB; Trusted_Connection=True"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
