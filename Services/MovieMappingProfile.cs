@@ -8,8 +8,9 @@ namespace Services
     {
         public MovieMappingProfile()
         {
-            CreateMap<Movie, MovieDto>()
-                .ForMember(m => m.MovieCategory, c => c.MapFrom(s => s.MovieCategory));
+            CreateMap<Movie, MovieDto>();
+
+            CreateMap<CreateMovieDto, Movie>();
         }
     }
 }

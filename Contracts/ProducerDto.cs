@@ -1,6 +1,6 @@
 ﻿namespace Contracts
 {
-    public class Producer
+    public class ProducerDto
     {
     }
 }

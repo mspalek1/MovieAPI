@@ -23,5 +23,20 @@ namespace Presentation.Controllers
             return Ok(movieDto);
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<MovieDto> Get([FromRoute] int id)
+        {
+            var movieDto = _serviceManager.MovieService.GetById(id);
+
+            return Ok(movieDto);
+        }
+
+        [HttpPost]
+        public ActionResult Create([FromBody] CreateMovieDto dto)
+        {
+            var id = _serviceManager.MovieService.Create(dto);
+
+            return Created($"/api/movie/{id}", null);
+        }
     }
 }
