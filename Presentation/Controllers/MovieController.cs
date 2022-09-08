@@ -19,7 +19,8 @@ namespace Presentation.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<MovieDto>> GetAll()
         {
-            return Ok("sdaf");
+            var movieDto = _serviceManager.MovieService.GetAll();
+            return Ok(movieDto);
         }
 
     }

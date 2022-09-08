@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using Domain.Repositories;
 using Services.Interfaces;
 
@@ -8,10 +9,11 @@ namespace Services
     {
         private readonly Lazy<IMovieService> _lazyMovieService;
         private readonly IProducerService _producerService;
+        private readonly IMapper _mapper;
 
-        public ServiceManager(IServiceManagerRepository managerRepository)
+        public ServiceManager(IServiceManagerRepository managerRepository, IMapper mapper)
         {
-            _lazyMovieService = new Lazy<IMovieService>(() => new MovieService(managerRepository));
+            _lazyMovieService = new Lazy<IMovieService>(() => new MovieService(managerRepository, mapper));
             _producerService = new ProducerService(managerRepository);
         }
 

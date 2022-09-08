@@ -25,6 +25,7 @@ namespace MovieAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<MovieSeeder>();
+            services.AddAutoMapper(typeof(Services.AssemblyReference).Assembly);
 
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();
             services.AddControllers()
