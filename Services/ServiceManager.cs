@@ -9,7 +9,6 @@ namespace Services
     {
         private readonly Lazy<IMovieService> _lazyMovieService;
         private readonly IProducerService _producerService;
-        private readonly IMapper _mapper;
 
         public ServiceManager(IServiceManagerRepository managerRepository, IMapper mapper)
         {

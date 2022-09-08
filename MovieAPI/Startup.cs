@@ -31,10 +31,12 @@ namespace MovieAPI
             services.AddControllers()
                 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 
+            services.AddSwaggerGen();
+
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IServiceManagerRepository, ServiceManagerRepository>();
             services.AddDbContext<MovieDBContext>
-                (options => options.UseSqlServer("Server=.\\sql2019; Database=MovieDB; Trusted_Connection=True"));
+                (options => options.UseSqlServer(Configuration.GetConnectionString("MovieDbConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +46,8 @@ namespace MovieAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieAPI v1"));
             }
 
             app.UseHttpsRedirection();
