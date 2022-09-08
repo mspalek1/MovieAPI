@@ -3,11 +3,11 @@ using Services.Interfaces;
 
 namespace Services
 {
-    internal class MovieService : IMovieService
+    public class ProducerService : IProducerService
     {
         private readonly IServiceManagerRepository _managerRepository;
 
-        public MovieService(IServiceManagerRepository managerRepository)
+        public ProducerService(IServiceManagerRepository managerRepository)
         {
             _managerRepository = managerRepository;
         }

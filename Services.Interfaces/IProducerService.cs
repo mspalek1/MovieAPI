@@ -1,6 +1,6 @@
 ﻿namespace Services.Interfaces
 {
-    public interface IMovieService
+    public interface IProducerService
     {
     }
 }

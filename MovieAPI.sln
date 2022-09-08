@@ -5,17 +5,23 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieAPI", "MovieAPI\MovieAPI.csproj", "{D973E68C-36A0-4BD7-9D9E-819053A406B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{CFC4DCA7-B091-4D12-B1F5-DFDDBD833B5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{CFC4DCA7-B091-4D12-B1F5-DFDDBD833B5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{17E0483E-EDE0-4098-A730-4E28A7A8B6E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{17E0483E-EDE0-4098-A730-4E28A7A8B6E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{A2847BDD-2EB9-4D3C-A575-08A566E689BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{A2847BDD-2EB9-4D3C-A575-08A566E689BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Interfaces", "Services.Interfaces\Services.Interfaces.csproj", "{81A55D17-D0FA-43BC-B788-BA2579453272}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Interfaces", "Services.Interfaces\Services.Interfaces.csproj", "{81A55D17-D0FA-43BC-B788-BA2579453272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{59BE7EC6-A0B4-4B6A-B259-834E8DFC4A25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{59BE7EC6-A0B4-4B6A-B259-834E8DFC4A25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{4B7706F0-DA2C-4118-BD02-74C033DE0543}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "Presentation\Presentation.csproj", "{4B7706F0-DA2C-4118-BD02-74C033DE0543}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{7EB0B2E9-E918-4E07-8EC6-F3BD36DAB55F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BussinesServices", "BussinesServices", "{039A705B-E757-45A0-B48E-6FD841A96B5F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentations", "Presentations", "{769F8942-3D81-4C0C-9F70-32AA7AB3989D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +60,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CFC4DCA7-B091-4D12-B1F5-DFDDBD833B5E} = {7EB0B2E9-E918-4E07-8EC6-F3BD36DAB55F}
+		{17E0483E-EDE0-4098-A730-4E28A7A8B6E1} = {7EB0B2E9-E918-4E07-8EC6-F3BD36DAB55F}
+		{A2847BDD-2EB9-4D3C-A575-08A566E689BA} = {039A705B-E757-45A0-B48E-6FD841A96B5F}
+		{81A55D17-D0FA-43BC-B788-BA2579453272} = {039A705B-E757-45A0-B48E-6FD841A96B5F}
+		{59BE7EC6-A0B4-4B6A-B259-834E8DFC4A25} = {769F8942-3D81-4C0C-9F70-32AA7AB3989D}
+		{4B7706F0-DA2C-4118-BD02-74C033DE0543} = {769F8942-3D81-4C0C-9F70-32AA7AB3989D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4198B1DF-7193-4AF5-A329-8147A36B42F5}

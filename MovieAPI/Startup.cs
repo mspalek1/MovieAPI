@@ -1,3 +1,4 @@
+using Domain.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
+using Persistence.Repositories;
 using Services;
 using Services.Interfaces;
 
@@ -27,6 +29,9 @@ namespace MovieAPI
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();
             services.AddControllers()
                 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+
+            services.AddScoped<IServiceManager, ServiceManager>();
+            services.AddScoped<IServiceManagerRepository, ServiceManagerRepository>();
             services.AddDbContext<MovieDBContext>
                 (options => options.UseSqlServer("Server=.\\sql2019; Database=MovieDB; Trusted_Connection=True"));
         }

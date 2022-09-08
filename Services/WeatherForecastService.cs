@@ -8,6 +8,10 @@ namespace Services
 {
     public class WeatherForecastService : IWeatherForecastService
     {
+        public WeatherForecastService()
+        {
+
+        }
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
