@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Repositories;
 
 namespace Persistence.Repositories
@@ -29,7 +30,7 @@ namespace Persistence.Repositories
 
             if (movie is null)
             {
-                throw new Exception($"Movie not found {id}");
+                throw new NotFoundException($"The movie with the identifier {id} was not found");
             }
 
             return movie;

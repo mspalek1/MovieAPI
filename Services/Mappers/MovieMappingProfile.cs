@@ -2,7 +2,7 @@
 using Contracts;
 using Domain.Entities;
 
-namespace Services
+namespace Services.Mappers
 {
     public class MovieMappingProfile : Profile
     {

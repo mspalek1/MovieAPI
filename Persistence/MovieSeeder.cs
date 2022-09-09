@@ -23,7 +23,7 @@ namespace Persistence
                 var pendingMigrations = _dbContext.Database.GetPendingMigrations();
                 if (pendingMigrations != null && pendingMigrations.Any())
                 {
-                    //todo
+                    _dbContext.Database.Migrate();
                 }
 
                 if (!_dbContext.Producers.Any())

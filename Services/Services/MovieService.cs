@@ -7,7 +7,7 @@ using Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
-namespace Services
+namespace Services.Services
 {
     internal class MovieService : IMovieService
     {

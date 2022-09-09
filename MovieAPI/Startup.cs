@@ -7,8 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
 using Persistence.Repositories;
-using Services;
 using Services.Interfaces;
+using Services.Middleware;
+using Services.Services;
 
 namespace MovieAPI
 {
@@ -35,6 +36,7 @@ namespace MovieAPI
 
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IServiceManagerRepository, ServiceManagerRepository>();
+            services.AddScoped<ErrorHandlingMiddleware>();
             services.AddDbContext<MovieDBContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("MovieDbConnection")));
         }
@@ -50,6 +52,7 @@ namespace MovieAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieAPI v1"));
             }
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();
