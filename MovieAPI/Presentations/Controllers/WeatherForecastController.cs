@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Interfaces;
 
-namespace Presentation.Controllers
+namespace MovieAPI.Presentations.Controllers
 {
     [ApiController]
     [Route("[controller]")]

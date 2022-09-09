@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
 using Persistence.Repositories;
+using Services;
 using Services.Interfaces;
 using Services.Middleware;
 using Services.Services;
@@ -29,13 +30,15 @@ namespace MovieAPI
             services.AddAutoMapper(typeof(Services.AssemblyReference).Assembly);
 
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();
-            services.AddControllers()
-                .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+            //services.AddControllers()
+            //    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+            services.AddControllers();
 
             services.AddSwaggerGen();
 
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IServiceManagerRepository, ServiceManagerRepository>();
+            services.AddService();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddDbContext<MovieDBContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("MovieDbConnection")));

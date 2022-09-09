@@ -13,11 +13,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
-    <ProjectReference Include="..\Presentation\Presentation.csproj" />
     <ProjectReference Include="..\Services.Interfaces\Services.Interfaces.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>

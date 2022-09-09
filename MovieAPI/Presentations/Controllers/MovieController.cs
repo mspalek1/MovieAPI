@@ -3,7 +3,7 @@ using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
-namespace Presentation.Controllers
+namespace MovieAPI.Presentations.Controllers
 {
     [ApiController]
     [Route("api/movies")]
