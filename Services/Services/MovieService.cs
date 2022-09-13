@@ -9,7 +9,7 @@ using Services.Interfaces;
 
 namespace Services.Services
 {
-    internal class MovieService : IMovieService
+    public class MovieService : IMovieService
     {
         private readonly IServiceManagerRepository _managerRepository;
         private readonly IMapper _mapper;
