@@ -8,7 +8,7 @@ using Domain.Repositories;
 
 namespace Persistence.Repositories
 {
-    internal sealed class MovieRepository : IMovieRepository
+    public sealed class MovieRepository : IMovieRepository
     {
         private readonly MovieDBContext _dbContext;
 
