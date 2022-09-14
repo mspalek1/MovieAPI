@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
+using Domain.Data;
 using Domain.Entities;
 using Domain.Exceptions;
+using Domain.Pages;
 using Domain.Queries;
 using Domain.Repositories;
 
@@ -25,17 +26,26 @@ namespace Persistence.Repositories
             return movie;
         }
 
-        public IEnumerable<Movie> GetPagedWithQuery(MovieQuery query)
+        public PageResult<Movie> GetPagedWithQuery(MovieQuery query)
         {
+        
+            bool isSuccess = Enum.TryParse<MovieCategory>(query.SearchPhrase, out var movieCategory);
+
             var baseQuery = _dbContext
                 .Movie
-                .Where(r => query.SearchPhase == null ||
-                            r.Name.ToLower().Contains(query.SearchPhase.ToLower()) ||
-                            r.MovieCategory.Equals(query.SearchPhase));
+                .Where(r => query.SearchPhrase == null ||
+                            r.Name.ToLower().Contains(query.SearchPhrase.ToLower()) ||
+                            (isSuccess && r.MovieCategory.HasFlag(movieCategory)));
 
-            var movie = baseQuery.ToList();
+            var movie = baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToList();
 
-            return movie;
+            var totalItemsCount = baseQuery.Count();
+            var result = new PageResult<Movie>(movie, totalItemsCount, query.PageSize, query.PageNumber);
+
+            return result;
         }
 
         public Movie GetById(int id)

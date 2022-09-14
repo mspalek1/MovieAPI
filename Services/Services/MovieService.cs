@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices.ComTypes;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Pages;
 using Domain.Queries;
 using Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -31,13 +32,16 @@ namespace Services.Services
             return movieDto;
         }
         
-        public ActionResult<IEnumerable<MovieDto>> GetPagedWithQuery(MovieQuery query)
+        public PageResult<MovieDto> GetPagedWithQuery(MovieQuery query)
         {
             var movie = _managerRepository.MovieRepository.GetPagedWithQuery(query);
 
-            var movieDto = _mapper.Map<List<MovieDto>>(movie);
+            var movieDto = _mapper.Map<List<MovieDto>>(movie.Items);
 
-            return movieDto;
+            var result = new PageResult<MovieDto>(movieDto, movie.TotalItemsCount, movie.ItemsFrom, movie.ItemsTo,
+                movie.TotalPage);
+
+            return result;
         }
 
         public ActionResult<MovieDto> GetById(int id)
