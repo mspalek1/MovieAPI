@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Contracts;
 using Domain.Entities;
+using Models;
 
 namespace Services.Mappers
 {

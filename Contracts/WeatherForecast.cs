@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Contracts
+namespace Models
 {
     public class WeatherForecast
     {

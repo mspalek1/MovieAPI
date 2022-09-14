@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Interfaces", "Services.Interfaces\Services.Interfaces.csproj", "{81A55D17-D0FA-43BC-B788-BA2579453272}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{59BE7EC6-A0B4-4B6A-B259-834E8DFC4A25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Contracts\Models.csproj", "{59BE7EC6-A0B4-4B6A-B259-834E8DFC4A25}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{7EB0B2E9-E918-4E07-8EC6-F3BD36DAB55F}"
 EndProject
@@ -21,11 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BussinesServices", "Bussine
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentations", "Presentations", "{769F8942-3D81-4C0C-9F70-32AA7AB3989D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Tests", "Persistence.Tests\Persistence.Tests.csproj", "{5C3D527B-ABAD-4143-B92B-A17814E97C95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.Tests", "Persistence.Tests\Persistence.Tests.csproj", "{5C3D527B-ABAD-4143-B92B-A17814E97C95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Tests", "BussinesServices.Tests\Services.Tests.csproj", "{97691046-89FB-4781-A3E4-8CE091E54A17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Tests", "BussinesServices.Tests\Services.Tests.csproj", "{97691046-89FB-4781-A3E4-8CE091E54A17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieAPI.Tests", "MovieAPI.Tests\MovieAPI.Tests.csproj", "{9D3E5822-00C4-4022-8A9B-E5D7928BA2A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieAPI.Tests", "MovieAPI.Tests\MovieAPI.Tests.csproj", "{9D3E5822-00C4-4022-8A9B-E5D7928BA2A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

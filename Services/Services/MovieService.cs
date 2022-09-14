@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using AutoMapper;
-using Contracts;
 using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Services.Interfaces;
 
 namespace Services.Services

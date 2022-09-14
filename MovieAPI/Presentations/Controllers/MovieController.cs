@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Services.Interfaces;
 
 namespace MovieAPI.Presentations.Controllers
@@ -34,6 +34,11 @@ namespace MovieAPI.Presentations.Controllers
         [HttpPost]
         public ActionResult Create([FromBody] CreateMovieDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var id = _serviceManager.MovieService.Create(dto);
 
             return Created($"/api/movie/{id}", null);

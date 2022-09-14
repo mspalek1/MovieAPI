@@ -1,6 +1,6 @@
-﻿using Domain.Data;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Contracts
+namespace Models
 {
     public class CreateMovieDto
     {
@@ -10,6 +10,7 @@ namespace Contracts
         public int MovieLength { get; set; }
         public decimal Price { get; set; }
         public int MovieCategory { get; set; }
+        [Range(1, int.MaxValue)]
         public int AgeCategory { get; set; }
         public int ProducerId { get; set; }
     }

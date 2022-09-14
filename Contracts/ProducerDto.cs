@@ -1,4 +1,4 @@
-﻿namespace Contracts
+﻿namespace Models
 {
     public class ProducerDto
     {

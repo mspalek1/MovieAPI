@@ -1,6 +1,6 @@
-﻿using Contracts;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 
 namespace Services.Interfaces
 {

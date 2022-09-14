@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
 using Services.Interfaces;
 
 namespace MovieAPI.Presentations.Controllers

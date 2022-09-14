@@ -1,6 +1,6 @@
 ﻿using Domain.Data;
 
-namespace Contracts
+namespace Models
 {
     public class MovieDto
     {

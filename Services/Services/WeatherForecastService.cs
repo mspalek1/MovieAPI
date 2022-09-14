@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Contracts;
+using Models;
 using Services.Interfaces;
 
 namespace Services.Services
