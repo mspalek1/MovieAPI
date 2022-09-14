@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Domain.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services.Interfaces;
@@ -16,10 +17,17 @@ namespace MovieAPI.Presentations.Controllers
             _serviceManager = serviceManager;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public ActionResult<IEnumerable<MovieDto>> GetAll()
         {
             var movieDto = _serviceManager.MovieService.GetAll();
+            return Ok(movieDto);
+        }
+
+        [HttpGet("search")]
+        public ActionResult<IEnumerable<MovieDto>> GetPagedWithQuery([FromQuery]MovieQuery query)
+        {
+            var movieDto = _serviceManager.MovieService.GetPagedWithQuery(query);
             return Ok(movieDto);
         }
 

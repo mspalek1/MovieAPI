@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Domain.Queries;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
@@ -12,6 +13,7 @@ namespace Services
         {
             services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
             services.AddScoped<IValidator<CreateMovieDto>, CreateMovieDtoValidator>();
+            services.AddScoped<IValidator<MovieQuery>, MovieQueryValidator>();
 
             return services;
         }

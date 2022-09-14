@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using Domain.Entities;
 using Domain.Exceptions;
+using Domain.Queries;
 using Domain.Repositories;
 
 namespace Persistence.Repositories
@@ -20,6 +21,19 @@ namespace Persistence.Repositories
         public IEnumerable<Movie> GetAll()
         {
             var movie = _dbContext.Movie.ToList();
+
+            return movie;
+        }
+
+        public IEnumerable<Movie> GetPagedWithQuery(MovieQuery query)
+        {
+            var baseQuery = _dbContext
+                .Movie
+                .Where(r => query.SearchPhase == null ||
+                            r.Name.ToLower().Contains(query.SearchPhase.ToLower()) ||
+                            r.MovieCategory.Equals(query.SearchPhase));
+
+            var movie = baseQuery.ToList();
 
             return movie;
         }

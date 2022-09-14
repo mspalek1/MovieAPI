@@ -2,10 +2,12 @@
 using System.Runtime.InteropServices.ComTypes;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Queries;
 using Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Services.Services
 {
@@ -23,6 +25,15 @@ namespace Services.Services
         public ActionResult<IEnumerable<MovieDto>> GetAll()
         {
             var movie = _managerRepository.MovieRepository.GetAll();
+
+            var movieDto = _mapper.Map<List<MovieDto>>(movie);
+
+            return movieDto;
+        }
+        
+        public ActionResult<IEnumerable<MovieDto>> GetPagedWithQuery(MovieQuery query)
+        {
+            var movie = _managerRepository.MovieRepository.GetPagedWithQuery(query);
 
             var movieDto = _mapper.Map<List<MovieDto>>(movie);
 
