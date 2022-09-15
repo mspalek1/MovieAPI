@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using Domain.Data;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -36,6 +38,22 @@ namespace Persistence.Repositories
                 .Where(r => query.SearchPhrase == null ||
                             r.Name.ToLower().Contains(query.SearchPhrase.ToLower()) ||
                             (isSuccess && r.MovieCategory.HasFlag(movieCategory)));
+
+            if (!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnSelector = new Dictionary<string, Expression<Func<Movie, object>>>
+                {
+                    { nameof(Movie.Name), r => r.Name },
+                    { nameof(Movie.Description), r => r.Description },
+                    { nameof(Movie.MovieLength), r => r.MovieLength }
+                };
+
+                var selectedColumn = columnSelector[query.SortBy];
+
+                baseQuery = query.SortDirection == ListSortDirection.Ascending
+                    ? baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
 
             var movie = baseQuery
                 .Skip(query.PageSize * (query.PageNumber - 1))

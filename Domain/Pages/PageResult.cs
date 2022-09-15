@@ -16,7 +16,7 @@ namespace Domain.Pages
             Items = items;
             TotalItemsCount = totalCount;
             ItemsFrom = pageSize * (pageNumber - 1) + 1;
-            ItemsTo = ItemsFrom + pageSize + 1;
+            ItemsTo = ItemsFrom + pageSize - 1;
             TotalPage = (int)Math.Ceiling(totalCount / (double)pageSize);
         }
 
