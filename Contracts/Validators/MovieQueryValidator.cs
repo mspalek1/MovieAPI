@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using Domain.Entities;
 using Domain.Queries;
 using FluentValidation;
@@ -29,7 +31,12 @@ namespace Models.Validators
 
             RuleFor(r => r.SortBy)
                 .Must(value => string.IsNullOrEmpty(value) || _allowedSortByColumnNames.Contains(value))
-                .WithMessage($"Sort by is optional or must be int [{string.Join(",", _allowedSortByColumnNames)}]");
+                .WithMessage($"Sort by is optional or must be in [{string.Join(",", _allowedSortByColumnNames)}]");
+            //RuleFor(r => r.SortDirection)
+            //    .Must(value =>
+            //        string.IsNullOrEmpty(value.ToString()) ||
+            //        Enum.TryParse<ListSortDirection>(value.ToString(), out var sortDirection))
+            //    .WithMessage($"Sort direction is optional or must be in [{string.Join(",",Enum.GetValues(typeof(ListSortDirection)))}]");
         }
     }
 }
