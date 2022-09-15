@@ -97,5 +97,27 @@ namespace Models
             result.ShouldHaveValidationErrorFor(r => r.SortBy);
         }
 
+        [Test]
+        public void MovieQueriesValidator_AllQuery_ShouldBeValid()
+        {
+            var movieQuery = new MovieQuery();
+            movieQuery.SortBy = nameof(Movie.Name);
+            movieQuery.PageNumber = 1;
+            movieQuery.PageSize = 5;
+            var result = _movieQueryValidator.TestValidate(movieQuery);
+            Assert.That(result.IsValid, Is.True);
+        }
+
+        [Test]
+        public void MovieQueriesValidator_AllQuery_ShouldBeNotValid()
+        {
+            var movieQuery = new MovieQuery();
+            movieQuery.SortBy = nameof(Movie.Name);
+            movieQuery.PageNumber = -1;
+            movieQuery.PageSize = 5;
+            var result = _movieQueryValidator.TestValidate(movieQuery);
+            Assert.That(result.IsValid, Is.False);
+        }
+
     }
 }

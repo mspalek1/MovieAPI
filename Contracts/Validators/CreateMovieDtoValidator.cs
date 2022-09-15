@@ -6,7 +6,7 @@ namespace Models.Validators
 {
     public class CreateMovieDtoValidator : AbstractValidator<CreateMovieDto>
     {
-        public CreateMovieDtoValidator(MovieDBContext dbContext)
+        public CreateMovieDtoValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty();
