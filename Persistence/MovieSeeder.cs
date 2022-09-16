@@ -39,6 +39,13 @@ namespace Persistence
                     _dbContext.Movie.AddRange(movies);
                     _dbContext.SaveChanges();
                 }
+
+                if (!_dbContext.Roles.Any())
+                {
+                    var roles = GetRoles();
+                    _dbContext.Roles.AddRange(roles);
+                    _dbContext.SaveChanges();
+                }
             }
         }
 
@@ -98,6 +105,29 @@ namespace Persistence
             };
 
             return movies;
+        }
+
+        private IEnumerable<Role> GetRoles()
+        {
+            var roles = new List<Role>()
+            {
+                new Role()
+                {
+                    Name = "User"
+                },
+                new Role()
+                {
+                    Name = "Manager"
+                },
+                new Role()
+                {
+                    Name = "Admin"
+                }
+
+            };
+
+            return roles;
+
         }
     }
 }
