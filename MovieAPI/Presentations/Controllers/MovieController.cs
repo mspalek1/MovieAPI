@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Services.Function.Movie.Queries;
 using Services.Interfaces;
 
 namespace MovieAPI.Presentations.Controllers
@@ -11,10 +14,12 @@ namespace MovieAPI.Presentations.Controllers
     public class MovieController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
+        private readonly IMediator _mediator;
 
-        public MovieController(IServiceManager serviceManager)
+        public MovieController(IServiceManager serviceManager, IMediator mediator)
         {
             _serviceManager = serviceManager;
+            _mediator = mediator;
         }
 
         [HttpGet("all")]
@@ -37,6 +42,13 @@ namespace MovieAPI.Presentations.Controllers
             var movieDto = _serviceManager.MovieService.GetById(id);
 
             return Ok(movieDto);
+        }
+
+        [HttpGet("async/{id}")]
+        public async Task<ActionResult<MovieDto>> GetAsync([FromRoute] int id)
+        {
+            var movieDetail = await _mediator.Send(new GetMovieDetailQuery(){ Id = id });
+            return Ok(movieDetail);
         }
 
         [HttpPost]

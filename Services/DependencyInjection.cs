@@ -1,7 +1,9 @@
-﻿using Domain.Queries;
+﻿using System.Reflection;
+using Domain.Queries;
 using Domain.Repositories;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
 using Models.Validators;
@@ -21,6 +23,8 @@ namespace Services
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             return services;
         }

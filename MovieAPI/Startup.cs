@@ -42,7 +42,9 @@ namespace MovieAPI
 
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IServiceManagerRepository, ServiceManagerRepository>();
+            services.AddPersistenceService();
             services.AddService();
+
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddDbContext<MovieDBContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("MovieDbConnection")));

@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using MediatR;
+using Moq;
 using MovieAPI.Presentations.Controllers;
 using NUnit.Framework;
 using Services.Interfaces;
@@ -12,6 +13,7 @@ namespace MovieAPI
         private Mock<IServiceManager> _serviceManager;
         private Mock<IMovieService> _movieService;
         private MovieController _movieController;
+        private Mock<IMediator> _mediator;
 
         [SetUp]
         public void SetUp()
@@ -19,8 +21,10 @@ namespace MovieAPI
             _movieService = new Mock<IMovieService>();
             _serviceManager = new Mock<IServiceManager>();
             _serviceManager.Setup(s => s.MovieService).Returns(_movieService.Object);
-            
-            _movieController = new MovieController(_serviceManager.Object);
+
+            _mediator = new Mock<IMediator>();
+
+            _movieController = new MovieController(_serviceManager.Object, _mediator.Object);
         }
 
         [Test]
