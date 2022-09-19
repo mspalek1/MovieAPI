@@ -22,6 +22,8 @@ namespace MovieAPI.Presentations.Controllers
             _mediator = mediator;
         }
 
+        #region noAsync
+
         [HttpGet("all")]
         public ActionResult<IEnumerable<MovieDto>> GetAll()
         {
@@ -44,13 +46,6 @@ namespace MovieAPI.Presentations.Controllers
             return Ok(movieDto);
         }
 
-        [HttpGet("async/{id}")]
-        public async Task<ActionResult<MovieDto>> GetAsync([FromRoute] int id)
-        {
-            var movieDetail = await _mediator.Send(new GetMovieDetailQuery(){ Id = id });
-            return Ok(movieDetail);
-        }
-
         [HttpPost]
         public ActionResult Create([FromBody] CreateMovieDto dto)
         {
@@ -63,5 +58,33 @@ namespace MovieAPI.Presentations.Controllers
 
             return Created($"/api/movie/{id}", null);
         }
+
+        #endregion
+
+        #region
+
+        [HttpGet("async/{id}")]
+        public async Task<ActionResult<MovieDto>> GetAsync([FromRoute] int id)
+        {
+            var movieDetail = await _mediator.Send(new GetMovieDetailQuery() { Id = id });
+            return Ok(movieDetail);
+        }
+
+        [HttpGet("async/all")]
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetAsyncAll()
+        {
+            var movieDto = await _mediator.Send(new GetMovieListQuery());
+            return Ok(movieDto);
+        }
+
+        [HttpGet("async/search")]
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetPagedAsyncWithQuery([FromQuery] MovieQuery query)
+        {
+            var movieDto = await _mediator.Send(new GetMovieListSearchQuery() { MovieQuery = query});
+            //_serviceManager.MovieService.GetPagedWithQuery(query);
+            return Ok(movieDto);
+        }
+
+        #endregion
     }
 }

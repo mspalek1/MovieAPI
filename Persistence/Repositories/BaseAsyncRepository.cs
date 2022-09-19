@@ -8,7 +8,7 @@ namespace Persistence.Repositories
 {
     public class BaseAsyncRepository<T> : IAsyncRepository<T> where T : class
     {
-        private readonly MovieDBContext _dbContext;
+        protected readonly MovieDBContext _dbContext;
         public BaseAsyncRepository(MovieDBContext dbContext)
         {
             _dbContext = dbContext;

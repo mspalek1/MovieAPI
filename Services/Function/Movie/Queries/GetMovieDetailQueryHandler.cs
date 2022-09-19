@@ -9,9 +9,9 @@ namespace Services.Function.Movie.Queries
 {
     public class GetMovieDetailQueryHandler : IRequestHandler<GetMovieDetailQuery, MovieDto>
     {
-        private readonly IAsyncRepository<Domain.Entities.Movie> _movieRepository;
+        private readonly IMovieAsyncRepository _movieRepository;
         private readonly IMapper _mapper;
-        public GetMovieDetailQueryHandler(IAsyncRepository<Domain.Entities.Movie> movieRepository, IMapper mapper)
+        public GetMovieDetailQueryHandler(IMovieAsyncRepository movieRepository, IMapper mapper)
         {
             _movieRepository = movieRepository;
             _mapper = mapper;
