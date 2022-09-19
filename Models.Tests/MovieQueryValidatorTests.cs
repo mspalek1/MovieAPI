@@ -29,7 +29,7 @@ namespace Models
             movieQuery.PageSize = pageSize;
             var result = _movieQueryValidator.TestValidate(movieQuery);
             result.ShouldNotHaveValidationErrorFor(r=>r.PageSize);
-       }
+        }
 
         [TestCase(-1)]
         [TestCase(0)]
