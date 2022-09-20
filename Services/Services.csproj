@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Services.Interfaces\Services.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Function\Movie\Commands\" />
-  </ItemGroup>
-
 </Project>

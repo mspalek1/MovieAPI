@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using Domain.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Services.Function.Movie.Commands;
 using Services.Function.Movie.Queries;
 using Services.Interfaces;
 
@@ -81,8 +83,18 @@ namespace MovieAPI.Presentations.Controllers
         public async Task<ActionResult<IEnumerable<MovieDto>>> GetPagedAsyncWithQuery([FromQuery] MovieQuery query)
         {
             var movieDto = await _mediator.Send(new GetMovieListSearchQuery() { MovieQuery = query});
-            //_serviceManager.MovieService.GetPagedWithQuery(query);
             return Ok(movieDto);
+        }
+
+        [HttpPost("async/create", Name="CreateMovie")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> Create([FromBody] CreatedMovieCommand createdMovieCommand)
+        {
+            var result = await _mediator.Send(createdMovieCommand);
+
+            return Ok(result.MovieId);
         }
 
         #endregion

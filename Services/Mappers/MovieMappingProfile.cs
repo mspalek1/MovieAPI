@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Models;
+using Services.Function.Movie.Commands;
 
 namespace Services.Mappers
 {
@@ -11,6 +12,9 @@ namespace Services.Mappers
             CreateMap<Movie, MovieDto>();
 
             CreateMap<CreateMovieDto, Movie>();
+
+            CreateMap<CreatedMovieCommand, Movie>();
+
         }
     }
 }
