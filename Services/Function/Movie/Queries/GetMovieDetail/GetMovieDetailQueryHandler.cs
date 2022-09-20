@@ -5,7 +5,7 @@ using Domain.Repositories;
 using MediatR;
 using Models;
 
-namespace Services.Function.Movie.Queries
+namespace Services.Function.Movie.Queries.GetMovieDetail
 {
     public class GetMovieDetailQueryHandler : IRequestHandler<GetMovieDetailQuery, MovieDto>
     {
@@ -18,7 +18,7 @@ namespace Services.Function.Movie.Queries
         }
 
         public async Task<MovieDto> Handle
-            (GetMovieDetailQuery request, 
+            (GetMovieDetailQuery request,
             CancellationToken cancellationToken)
         {
             var movie = await _movieRepository.GetByIdAsync(request.Id);

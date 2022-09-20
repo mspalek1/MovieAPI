@@ -7,7 +7,7 @@ using Domain.Repositories;
 using MediatR;
 using Models;
 
-namespace Services.Function.Movie.Queries
+namespace Services.Function.Movie.Queries.GetMovieList
 {
     public class GetMovieListQueryHandler : IRequestHandler<GetMovieListQuery, List<MovieDto>>
     {

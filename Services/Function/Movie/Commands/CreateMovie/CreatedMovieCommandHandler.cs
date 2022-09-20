@@ -5,7 +5,7 @@ using Domain.Repositories;
 using MediatR;
 using Models;
 
-namespace Services.Function.Movie.Commands
+namespace Services.Function.Movie.Commands.CreateMovie
 {
     public class CreatedMovieCommandHandler : IRequestHandler<CreatedMovieCommand, CreatedMovieCommandResponse>
     {
@@ -21,12 +21,20 @@ namespace Services.Function.Movie.Commands
 
         public async Task<CreatedMovieCommandResponse> Handle(CreatedMovieCommand request, CancellationToken cancellationToken)
         {
+            var validator = new CreatedMovieCommandValidator(_movieAsyncRepository);
+            var validatorResult = await validator.ValidateAsync(request);
+
+            if (!validatorResult.IsValid)
+            {
+                return new CreatedMovieCommandResponse(validatorResult);
+            }
+
             var post = _mapper.Map<Domain.Entities.Movie>(request);
 
             post = await _movieAsyncRepository.AddAsync(post);
 
             return new CreatedMovieCommandResponse(post.Id);
         }
-        
+
     }
 }

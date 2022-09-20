@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System.ComponentModel.DataAnnotations;
 
-namespace Services.Function.Movie.Commands
+namespace Services.Function.Movie.Commands.CreateMovie
 {
     public class CreatedMovieCommand : IRequest<CreatedMovieCommandResponse>
     {

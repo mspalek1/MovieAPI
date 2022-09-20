@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Models;
 using Models.Validators;
 using Persistence.Repositories;
+using Services.Function.Movie.Commands;
 using Services.Interfaces;
 using Services.Services;
 
