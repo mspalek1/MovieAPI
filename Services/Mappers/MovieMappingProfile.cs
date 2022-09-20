@@ -12,7 +12,7 @@ namespace Services.Mappers
         {
             CreateMap<Movie, MovieDto>();
 
-            CreateMap<CreateMovieDto, Movie>();
+           // CreateMap<CreateMovieDto, Movie>();
 
             CreateMap<CreatedMovieCommand, Movie>();
 

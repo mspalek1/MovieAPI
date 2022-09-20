@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -16,7 +18,13 @@ namespace Persistence.Repositories
         }
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
+            var result = await _dbContext.Set<T>().FindAsync(id);
+            if (result is null)
+            {
+                throw new NotFoundException($"The object {typeof(T)} with the identifier {id} was not found");
+            }
+           
+            return result;
         }
 
         public async Task<IReadOnlyList<T>> GetAllAsync()

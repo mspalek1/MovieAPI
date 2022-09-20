@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Services.Interfaces\Services.Interfaces.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Function\Account\Queries\" />
+  </ItemGroup>
+
 </Project>

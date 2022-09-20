@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
-using Services.Interfaces;
 
 namespace MovieAPI.Presentations.Controllers
 {
@@ -8,18 +7,18 @@ namespace MovieAPI.Presentations.Controllers
     [Route("api/account")]
     public class AccountController : ControllerBase
     {
-        private readonly IAccountService _accountService;
+        //private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
-        {
-            _accountService = accountService;
-        }
+        //public AccountController(IAccountService accountService)
+        //{
+        //    _accountService = accountService;
+        //}
 
-        [HttpPost("register")]
-        public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
-        {
-            _accountService.RegisterUser(dto);
-            return Ok();
-        }
+        //[HttpPost("register")]
+        //public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
+        //{
+        //    _accountService.RegisterUser(dto);
+        //    return Ok();
+        //}
     }
 }
