@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Domain.Queries;
 using Domain.Repositories;
 using Models;
 using Moq;
@@ -64,7 +65,28 @@ namespace Services
             response.ValidationErrors.Count.ShouldBe(0);
             allMovies.Count.ShouldBe(++allMovieBeforeCount);
         }
+
+        [Test]
+        public async Task GetMovies_InvokeMethodQueries_ValidateMovie()
+        {
+            var handler = new GetMovieListSearchQueryHandler(_repositoryMovieMock.Object, _mapperMock);
+            var movieQuery = new MovieQuery()
+            {
+                SearchPhrase = "Movie1",
+                PageNumber = 1,
+                PageSize = 5
+            };
+            var request = new GetMovieListSearchQuery()
+            {
+                MovieQuery = movieQuery
+            };
+
+            var result = await handler.Handle(request, CancellationToken.None);
+
+            result.Items.Count.ShouldBe(1);
+            result.Items[0].Name = movieQuery.SearchPhrase;
+            result.TotalPage.ShouldBe(1);
+            result.TotalItemsCount.ShouldBe(1);
+        }
     }
-
-
 }

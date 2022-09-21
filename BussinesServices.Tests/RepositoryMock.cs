@@ -9,6 +9,7 @@ using Domain.Repositories;
 using Moq;
 using NUnit.Framework;
 using Services.Function.Movie.Queries.GetMovieList;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Services
 {
@@ -50,8 +51,17 @@ namespace Services
                 );
 
 
-            //mockMovieAsyncRepository.Setup(repo => repo.GetPagedAsyncWithQuery(It.IsAny<MovieQuery>()))
-            //    .ReturnsAsync
+            mockMovieAsyncRepository.Setup(repo => repo.GetPagedAsyncWithQuery(It.IsAny<MovieQuery>()))
+                .ReturnsAsync((MovieQuery movieQuery) =>
+                {
+                    var matches = movies.Where(x => x.Name.Contains(movieQuery.SearchPhrase))
+                        .Skip((movieQuery.PageNumber - 1) * movieQuery.PageSize).Take(movieQuery.PageSize).ToList();
+                    
+                    var totalItemsCount = matches.Count;
+                    var result = new PageResult<Movie>(matches, totalItemsCount, movieQuery.PageSize,
+                        movieQuery.PageNumber);
+                    return result;
+                });
 
             return mockMovieAsyncRepository;
         }
