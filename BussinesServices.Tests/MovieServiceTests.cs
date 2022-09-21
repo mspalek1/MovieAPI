@@ -1,51 +1,70 @@
-﻿//using System.Collections.Generic;
-//using AutoMapper;
-//using Domain.Data;
-//using Domain.Entities;
-//using Domain.Repositories;
-//using Moq;
-//using NUnit.Framework;
-//using NUnit.Framework.Internal;
-//using Services.Services;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using Domain.Repositories;
+using Models;
+using Moq;
+using NUnit.Framework;
+using Services.Function.Movie.Commands.CreateMovie;
+using Services.Function.Movie.Queries.GetMovieList;
+using Services.Mappers;
+using Shouldly;
 
-//namespace Services
-//{
-//    [TestFixture]
-//    public class MovieServiceTests
-//    {
-//        private MovieService _movieService;
-//        private Mock<IServiceManagerRepository> _serviceManagerRepoMock;
-//        private Mock<IMapper> _mapperMock;
+namespace Services
+{
+    [TestFixture]
+    public class MovieServiceTests
+    {
+        private IMapper _mapperMock;
+        private Mock<IMovieAsyncRepository> _repositoryMovieMock;
+        
+        [SetUp]
+        public void Setup()
+        {
+            
+           _repositoryMovieMock = RepositoryMock.GetMovieAsyncRepository();
+           var configurationProvider = new MapperConfiguration(cfg =>
+           {
+               cfg.AddProfile<MovieMappingProfile>();
+           });
 
-//        private List<Movie> _availableMovie;
+           _mapperMock = configurationProvider.CreateMapper();
+        }
 
-//        [SetUp]
-//        public void Setup()
-//        {
-//            _availableMovie = new List<Movie>()
-//            {
-//                new Movie()
-//                {
-//                    AgeCategory = AgeCategory.ParentalGuidance,
-//                    Description = "Descritpion1",
-//                    ImageURL = "http://Movie1",
-//                    MovieCategory = MovieCategory.Action,
-//                    MovieLength = 124,
-//                    Name = "Movie1"
-//                }
-//            };
-//            _serviceManagerRepoMock = new Mock<IServiceManagerRepository>();
-//            _serviceManagerRepoMock.Setup(x => x.MovieRepository.GetAll())
-//                .Returns(_availableMovie);
-//            _mapperMock = new Mock<IMapper>();
-//            _movieService = new MovieService(_serviceManagerRepoMock.Object, _mapperMock.Object);
-//        }
+        [Test]
+        public async Task GetAllMovies_InvokeMethod_CheckIfRepoIsCalled()
+        {
+            var handler = new GetMovieListQueryHandler(_repositoryMovieMock.Object, _mapperMock);
+            var result = await handler.Handle(new GetMovieListQuery(), CancellationToken.None);
 
-//        [Test]
-//        public void GetAllMOvies_InvokeMethod_CheckIfRepoIsCalled()
-//        {
-//            _movieService.GetAll();
-//            _serviceManagerRepoMock.Verify(c=>c.MovieRepository.GetAll(), Times.Once);
-//        }
-//    }
-//}
+            _repositoryMovieMock.Verify(c=>c.GetAllAsync(), Times.Once);
+
+            result.ShouldBeOfType<List<MovieDto>>();
+            result.Count.ShouldBe(2);
+        }
+
+        [Test]
+        public async Task Handle_ValidMovie_AddedToMovieRepo()
+        {
+            var handler = new CreatedMovieCommandHandler(_repositoryMovieMock.Object, _mapperMock);
+
+            var allMovieBeforeCount = (await _repositoryMovieMock.Object.GetAllAsync()).Count;
+
+            var response = await handler.Handle(new CreatedMovieCommand()
+                {
+                    Name = "Test",
+                    Description = "Description test"
+                }
+                , CancellationToken.None);
+
+            var allMovies = await _repositoryMovieMock.Object.GetAllAsync();
+
+            response.Success.ShouldBe(true);
+            response.ValidationErrors.Count.ShouldBe(0);
+            allMovies.Count.ShouldBe(++allMovieBeforeCount);
+        }
+    }
+
+
+}

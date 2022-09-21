@@ -14,7 +14,9 @@ namespace Services.Mappers
 
            // CreateMap<CreateMovieDto, Movie>();
 
-            CreateMap<CreatedMovieCommand, Movie>();
+           CreateMap<CreatedMovieCommand, Movie>()
+               .ForMember(m => m.Id
+                   , c => c.MapFrom(i => i.MovieId));
 
             CreateMap<UpdateMovieCommand, Movie>();
         }
