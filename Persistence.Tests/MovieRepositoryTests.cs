@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -15,13 +16,13 @@ namespace Persistence
     [TestFixture]
     public class MovieRepositoryTests
     {
-        private Movie movie1;
-        private Movie movie2;
-        private DbContextOptions<MovieDBContext> options;
+        private Movie _movie1;
+        private Movie _movie2;
+        private DbContextOptions<MovieDBContext> _options;
 
         public MovieRepositoryTests()
         {
-            movie1 = new Movie()
+            _movie1 = new Movie()
             {
                 AgeCategory = AgeCategory.ParentalGuidance,
                 Description = "Descritpion1",
@@ -31,7 +32,7 @@ namespace Persistence
                 Name = "Movie1"
             };
 
-            movie2 = new Movie()
+            _movie2 = new Movie()
             {
                 AgeCategory = AgeCategory.ParentalGuidance,
                 Description = "Descritpion2",
@@ -45,93 +46,94 @@ namespace Persistence
         [SetUp]
         public void Setup()
         {
-            options = new DbContextOptionsBuilder<MovieDBContext>()
+            _options = new DbContextOptionsBuilder<MovieDBContext>()
                 .UseInMemoryDatabase(databaseName: "tempMovie").Options;
-            
+
         }
 
         [Test]
-        public void SaveMovie_MovieOne_CheckTheValueFromDB()
+        public async Task SaveMovie_MovieOne_CheckTheValueFromDB()
         {
-            using (var context = new MovieDBContext(options))
+            await using (var context = new MovieDBContext(_options))
             {
                 context.Database.EnsureDeleted();
-                var repository = new MovieRepository(context);
-                repository.Create(movie1);
+                var repository = new MovieAsyncRepository(context);
+                await repository.AddAsync(_movie1);
             }
 
-            using (var context = new MovieDBContext(options))
+            await using(var context = new MovieDBContext(_options))
             {
                 var movieFromDb = context.Movie.First();
-                Assert.AreEqual(movie1.MovieCategory, movieFromDb.MovieCategory);
-                Assert.AreEqual(movie1.Description, movieFromDb.Description);
-                Assert.AreEqual(movie1.ImageURL, movieFromDb.ImageURL);
-                Assert.AreEqual(movie1.MovieLength, movieFromDb.MovieLength);
+                Assert.AreEqual(_movie1.MovieCategory, movieFromDb.MovieCategory);
+                Assert.AreEqual(_movie1.Description, movieFromDb.Description);
+                Assert.AreEqual(_movie1.ImageURL, movieFromDb.ImageURL);
+                Assert.AreEqual(_movie1.MovieLength, movieFromDb.MovieLength);
             }
 
 
         }
 
         [Test]
-        public void GetAllMovies_MoviesOneAndTwo_CheckBothMovieFromDB()
+        public async Task GetAllMovies_MoviesOneAndTwo_CheckBothMovieFromDB()
         {
             var expectedResult = new List<Movie>
             {
-                movie1,
-                movie2
+                _movie1,
+                _movie2
             };
 
-            using (var context = new MovieDBContext(options))
+            await using(var context = new MovieDBContext(_options))
             {
                 context.Database.EnsureDeleted();
-                var repository = new MovieRepository(context);
-                repository.Create(movie1);
-                repository.Create(movie2);
+                var repository = new MovieAsyncRepository(context);
+                await repository.AddAsync(_movie1);
+                await repository.AddAsync(_movie2);
             }
 
             List<Movie> actualList;
-            using (var context = new MovieDBContext(options))
+            await using(var context = new MovieDBContext(_options))
             {
-                var repository = new MovieRepository(context);
-                actualList = repository.GetAll().ToList();
+                var repository = new MovieAsyncRepository(context);
+                actualList = repository.GetAllAsync().Result.ToList();
             }
+         
 
             CollectionAssert.AreEqual(expectedResult, actualList, new MovieComparer());
         }
 
         [Test]
-        public void MovieException_BadRequest_ThrowsException()
+        public async Task MovieException_BadRequest_ThrowsException()
         {
-            using (var context = new MovieDBContext(options))
+            await using(var context = new MovieDBContext(_options))
             {
                 int id = 0;
-                var repository = new MovieRepository(context);
-                var exception = Assert.Throws<NotFoundException>(() => repository.GetById(id));
-                Assert.That(exception.Message, Is.EqualTo($"The movie with the identifier {id} was not found"));
+                var repository = new MovieAsyncRepository(context);
+                var exception = Assert.ThrowsAsync<NotFoundException>(async() => await repository.GetByIdAsync(id));
+                Assert.That(exception.Message, Is.EqualTo($"The object Domain.Entities.Movie with the identifier {id} was not found"));
             }
         }
 
         [Test]
-        public void GetOneMovie_IdMovie_CheckMovieFromDB()
+        public async Task GetOneMovie_IdMovie_CheckMovieFromDB()
         {
 
-            var expectedResult = movie1;
-            using (var context = new MovieDBContext(options))
+            var expectedResult = _movie1;
+            await using(var context = new MovieDBContext(_options))
             {
                 context.Database.EnsureDeleted();
-                var repository = new MovieRepository(context);
-                repository.Create(movie1);
+                var repository = new MovieAsyncRepository(context);
+                await repository.AddAsync(_movie1);
             }
 
 
             Movie actual;
-            using (var context = new MovieDBContext(options))
+            await using(var context = new MovieDBContext(_options))
             {
-                var repository = new MovieRepository(context);
-                actual = repository.GetById(1);
+                var repository = new MovieAsyncRepository(context);
+                actual = await repository.GetByIdAsync(1);
             }
 
-            Assert.AreEqual(movie1.Id, actual.Id);
+            Assert.AreEqual(_movie1.Id, actual.Id);
         }
 
         private class MovieComparer : IComparer
@@ -153,5 +155,5 @@ namespace Persistence
         }
     }
 
-  
+
 }

@@ -1,8 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Queries;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using Services.Interfaces;
+using Services.Function.Movie.Commands.CreateMovie;
+using Services.Function.Movie.Commands.DeleteMovie;
+using Services.Function.Movie.Commands.UpdateMovie;
+using Services.Function.Movie.Queries.GetMovieDetail;
+using Services.Function.Movie.Queries.GetMovieList;
 
 namespace MovieAPI.Presentations.Controllers
 {
@@ -10,46 +17,89 @@ namespace MovieAPI.Presentations.Controllers
     [Route("api/movies")]
     public class MovieController : ControllerBase
     {
-        private readonly IServiceManager _serviceManager;
+        private readonly IMediator _mediator;
 
-        public MovieController(IServiceManager serviceManager)
+        public MovieController(IMediator mediator)
         {
-            _serviceManager = serviceManager;
+            _mediator = mediator;
         }
 
-        [HttpGet("all")]
-        public ActionResult<IEnumerable<MovieDto>> GetAll()
+        #region
+
+        [HttpGet("async/{id}")]
+        public async Task<ActionResult<MovieDto>> GetAsync([FromRoute] int id)
         {
-            var movieDto = _serviceManager.MovieService.GetAll();
+            var movieDetail = await _mediator.Send(new GetMovieDetailQuery() { Id = id });
+            return Ok(movieDetail);
+        }
+
+        [HttpGet("async/all")]
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetAsyncAll()
+        {
+            var movieDto = await _mediator.Send(new GetMovieListQuery());
             return Ok(movieDto);
         }
 
-        [HttpGet("search")]
-        public ActionResult<IEnumerable<MovieDto>> GetPagedWithQuery([FromQuery]MovieQuery query)
+        [HttpGet("async/search")]
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetPagedAsyncWithQuery([FromQuery] MovieQuery query)
         {
-            var movieDto = _serviceManager.MovieService.GetPagedWithQuery(query);
+            var movieDto = await _mediator.Send(new GetMovieListSearchQuery() { MovieQuery = query});
             return Ok(movieDto);
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<MovieDto> Get([FromRoute] int id)
+        [HttpPost("async/create", Name="CreateMovie")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> Create([FromBody] CreatedMovieCommand createdMovieCommand)
         {
-            var movieDto = _serviceManager.MovieService.GetById(id);
 
-            return Ok(movieDto);
-        }
+            var result = await _mediator.Send(createdMovieCommand);
 
-        [HttpPost]
-        public ActionResult Create([FromBody] CreateMovieDto dto)
-        {
-            if (!ModelState.IsValid)
+            if (!result.Success)
             {
-                return BadRequest(ModelState);
+                return BadRequest(result);
             }
 
-            var id = _serviceManager.MovieService.Create(dto);
-
-            return Created($"/api/movie/{id}", null);
+            return Ok(result.MovieId);
         }
+
+        [HttpDelete("async/delete/{id}", Name = "DeleteMovie")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Delete([FromRoute]int id)
+        {
+            var deleteMovieCommand = new DeleteMovieCommand() { MovieId = id };
+            var result = await _mediator.Send(deleteMovieCommand);
+
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+
+            return NoContent();
+        }
+
+
+        [HttpPut("async/update/{id}", Name = "UpdateMovie")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update([FromBody] UpdateMovieCommand updateMovieCommand, [FromRoute]int id)
+        {
+            updateMovieCommand.MovieId = id;
+
+            var result = await _mediator.Send(updateMovieCommand);
+
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+
+            return NoContent();
+        }
+        #endregion
     }
 }

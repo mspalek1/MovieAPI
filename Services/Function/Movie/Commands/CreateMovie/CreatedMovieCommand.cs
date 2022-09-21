@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MediatR;
+using System.ComponentModel.DataAnnotations;
 
-namespace Models
+namespace Services.Function.Movie.Commands.CreateMovie
 {
-    public class CreateMovieDto
+    public class CreatedMovieCommand : IRequest<CreatedMovieCommandResponse>
     {
+        public int MovieId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageURL { get; set; }
