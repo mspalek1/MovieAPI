@@ -22,7 +22,7 @@ namespace Services.Function.Movie.Commands.CreateMovie
 
         public int MovieId { get; set; }
 
-        public CreatedMovieCommandResponse(int movieId)
+        public CreatedMovieCommandResponse(int movieId) : base()
         {
             MovieId = movieId;
         }

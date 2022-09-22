@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
+using Domain.Entities;
 using Domain.Queries;
 using Domain.Repositories;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
 using Models.Validators;
@@ -17,11 +19,10 @@ namespace Services
         public static IServiceCollection AddService(this IServiceCollection services)
         {
             services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-           // services.AddScoped<IValidator<CreateMovieDto>, CreateMovieDtoValidator>();
+
             services.AddScoped<IValidator<MovieQuery>, MovieQueryValidator>();
 
-           // services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
 

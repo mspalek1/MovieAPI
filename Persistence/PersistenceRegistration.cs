@@ -10,6 +10,8 @@ namespace Persistence
         {
             services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseAsyncRepository<>));
             services.AddScoped<IMovieAsyncRepository, MovieAsyncRepository>();
+            services.AddScoped<IAsyncAccountRepository, AccountAsyncRepository>();
+            
             return services;
         }
     }

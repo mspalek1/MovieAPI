@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Models;
+using Services.Function.Account.Commands.CreateAccount;
 using Services.Function.Movie.Commands.CreateMovie;
 using Services.Function.Movie.Commands.UpdateMovie;
 
@@ -19,6 +20,8 @@ namespace Services.Mappers
                    , c => c.MapFrom(i => i.MovieId));
 
             CreateMap<UpdateMovieCommand, Movie>();
+
+            CreateMap<CreatedAccountCommand, User>();
         }
     }
 }
