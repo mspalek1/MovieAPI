@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services.Function.Account.Commands.CreateAccount;
+using Services.Function.Account.Queries;
 
 namespace MovieAPI.Presentations.Controllers
 {
@@ -32,7 +33,19 @@ namespace MovieAPI.Presentations.Controllers
                 return BadRequest(result);
             }
 
-            return Ok(result.AccountId); ;
+            return Ok(result.AccountId);
+        }
+
+        [HttpPost("async/login", Name = "Login")]
+        public async Task<ActionResult> Login([FromBody] LoginQuery login)
+        {
+            var result = await _mediator.Send(login);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result.Token);
         }
     }
 }
