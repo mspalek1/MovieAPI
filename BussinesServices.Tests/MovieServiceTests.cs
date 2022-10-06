@@ -9,6 +9,7 @@ using Moq;
 using NUnit.Framework;
 using Services.Function.Movie.Commands.CreateMovie;
 using Services.Function.Movie.Queries.GetMovieList;
+using Services.Interfaces;
 using Services.Mappers;
 using Shouldly;
 
@@ -19,17 +20,20 @@ namespace Services
     {
         private IMapper _mapperMock;
         private Mock<IMovieAsyncRepository> _repositoryMovieMock;
+        private Mock<IUserContextService> _userContextService;
         
         [SetUp]
         public void Setup()
         {
             
            _repositoryMovieMock = RepositoryMock.GetMovieAsyncRepository();
+           _userContextService = new Mock<IUserContextService>();
+           
            var configurationProvider = new MapperConfiguration(cfg =>
            {
                cfg.AddProfile<MovieMappingProfile>();
            });
-
+ 
            _mapperMock = configurationProvider.CreateMapper();
         }
 
@@ -48,7 +52,7 @@ namespace Services
         [Test]
         public async Task Handle_ValidMovie_AddedToMovieRepo()
         {
-            var handler = new CreatedMovieCommandHandler(_repositoryMovieMock.Object, _mapperMock);
+            var handler = new CreatedMovieCommandHandler(_repositoryMovieMock.Object, _mapperMock, _userContextService.Object);
 
             var allMovieBeforeCount = (await _repositoryMovieMock.Object.GetAllAsync()).Count;
 

@@ -15,5 +15,6 @@ namespace Services.Function.Movie.Commands.CreateMovie
         [Range(1, int.MaxValue)]
         public int AgeCategory { get; set; }
         public int ProducerId { get; set; }
+        public int UserId { get; set; }
     }
 }

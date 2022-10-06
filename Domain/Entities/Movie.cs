@@ -14,6 +14,9 @@ namespace Domain.Entities
         public MovieCategory MovieCategory { get; set; }
         public AgeCategory AgeCategory { get; set; }
 
+        public int? CreatedById { get; set; }
+        public virtual User CreatedBy { get; set; }
+
 
         public List<ActorMovieRelations> ActorMovieRelations { get; set; }
 

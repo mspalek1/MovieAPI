@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Domain.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -34,6 +36,7 @@ namespace MovieAPI.Presentations.Controllers
         }
 
         [HttpGet("async/all")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<MovieDto>>> GetAsyncAll()
         {
             var movieDto = await _mediator.Send(new GetMovieListQuery());
@@ -48,13 +51,10 @@ namespace MovieAPI.Presentations.Controllers
         }
 
         [HttpPost("async/create", Name="CreateMovie")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult<int>> Create([FromBody] CreatedMovieCommand createdMovieCommand)
         {
-
             var result = await _mediator.Send(createdMovieCommand);
 
             if (!result.Success)
