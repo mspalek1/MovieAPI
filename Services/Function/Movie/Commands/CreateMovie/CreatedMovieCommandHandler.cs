@@ -18,7 +18,7 @@ namespace Services.Function.Movie.Commands.CreateMovie
         public CreatedMovieCommandHandler(
             IMovieAsyncRepository movieAsyncRepository,
             IMapper mapper,
-            IUserContextService userContextService)        
+            IUserContextService userContextService)
         {
             _movieAsyncRepository = movieAsyncRepository;
             _mapper = mapper;

@@ -15,6 +15,21 @@ namespace Services
 
         public ClaimsPrincipal User => _httpContextAccessor.HttpContext?.User;
 
-        public int? GetUserId => User is null ? null : (int?)int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
+        public int? GetUserId
+        {
+            get
+            {
+
+                int? userId = null;
+                var climeType = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
+                if (climeType != null)
+                {
+                    userId = int.Parse(climeType.Value);
+                }   
+
+                return userId;
+            }
+
+        }
     }
 }

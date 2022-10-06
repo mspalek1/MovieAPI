@@ -17,9 +17,15 @@ namespace Services.Authorization
                 context.Succeed(requirement);
             }
 
-            var userId = context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            int userId = 0;
 
-            if (resource.CreatedById == int.Parse(userId))
+            var climeType = context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
+            if (climeType != null)
+            {
+                userId = int.Parse(climeType.Value);
+            }
+
+            if (resource.CreatedById == userId)
             {
                 context.Succeed(requirement);
             }

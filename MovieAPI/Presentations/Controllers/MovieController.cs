@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Models;
 using Services.Function.Movie.Commands.CreateMovie;
 using Services.Function.Movie.Commands.DeleteMovie;
@@ -68,6 +69,7 @@ namespace MovieAPI.Presentations.Controllers
         [HttpDelete("async/delete/{id}", Name = "DeleteMovie")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> Delete([FromRoute]int id)
         {
@@ -76,7 +78,11 @@ namespace MovieAPI.Presentations.Controllers
 
             if (!result.Success)
             {
-                return NotFound(result);
+                switch (result.StatusCode)
+                {
+                    case StatusCodes.Status404NotFound: return NotFound(result);
+                    case StatusCodes.Status403Forbidden: return Forbid();
+                }
             }
 
             return NoContent();
